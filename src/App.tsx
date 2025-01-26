@@ -1,6 +1,5 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-//import shuffle from './shuffle';
 import { Participant } from './Participant';
 import shuffle from './shuffle';
 
@@ -33,9 +32,9 @@ const App = () => {
         else { alert("Invalid number of participants! :( ") }
     }
 
-    /* const handleRemove = (participant:string) => {
-         setParticipants(participants.filter(name => name !== participant));
-     }*/
+    const handleRemove = (participantToRemove:string) => {
+         setParticipants(participants.filter(participant => participant !== participantToRemove));
+     }
 
     const handleReset = () => {
         setParticipants([]);
@@ -56,7 +55,7 @@ const App = () => {
                     {participants.map((participant, index) => {
                         return (<li key={index}>{participant}
                             {
-                        <button /*onClick={handleRemove(participant)}*/>REMOVE</button>}
+                        <button onClick={() => handleRemove(participant)}>REMOVE</button>}
                         </li>
                         )
                     }
