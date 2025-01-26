@@ -9,7 +9,7 @@ import shuffle from './shuffle';
 
 const App = () => {
     const [participants, setParticipants] = useState<string[]>([]); //Create an array of participants
-    const [drawedList, setDrawedList] = useState<{giver:string; receiver:string}[]>([]);
+    const [drawedList, setDrawedList] = useState<{ giver: string; receiver: string }[]>([]);
     useEffect(() => {
         console.log(participants);
     }, [participants]
@@ -20,19 +20,27 @@ const App = () => {
     };
 
     const handleDraw = () => {
-        if (participants.length >= 4 && participants.length%2 == 0) {
+        if (participants.length >= 3) {
             const shuffled = shuffle(participants);
             const result = shuffled.map((value, index) => {
-                return{
+                return {
                     giver: value,
                     receiver: shuffled[index + 1] || shuffled[0]
                 }
             });
             setDrawedList(result);
         }
-        else {alert("Invalid number of participants! :( ")}
+        else { alert("Invalid number of participants! :( ") }
     }
 
+    /* const handleRemove = (participant:string) => {
+         setParticipants(participants.filter(name => name !== participant));
+     }*/
+
+    const handleReset = () => {
+        setParticipants([]);
+        setDrawedList([]);
+    }
 
     return (
         <>
@@ -46,7 +54,11 @@ const App = () => {
                 <h3>Participants list:</h3>
                 <ul>
                     {participants.map((participant, index) => {
-                        return <li key={index}>{participant}</li>
+                        return (<li key={index}>{participant}
+                            {
+                        <button /*onClick={handleRemove(participant)}*/>REMOVE</button>}
+                        </li>
+                        )
                     }
                     )}
                 </ul>
@@ -54,9 +66,10 @@ const App = () => {
 
             <div>
                 <button onClick={handleDraw}>DRAW SECRET SANTA</button>
+                <button onClick={handleReset}>RESET</button>
                 <h3>Draw results:</h3>
                 <ul>
-                    {drawedList.map(({giver,  receiver}, index) => {
+                    {drawedList.map(({ giver, receiver }, index) => {
                         return <li key={index}>GIVER: {giver}       |         RECEIVER: {receiver}</li>
                     }
                     )}
